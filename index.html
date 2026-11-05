@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cinematic guide to oxygen production, monitoring, storage, and recycling in space habitats. Electrolysis, CO₂ removal, emergency reserves — current ISS systems and future concepts.">
+  <title>AETHER · Life Support | Oxygen in Orbit</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="starfield" aria-hidden="true"></div>
+  <canvas id="oxygen-particles" aria-hidden="true"></canvas>
+
+  <!-- HERO -->
+  <header class="hero" id="hero">
+    <div class="parallax-layer planet" aria-hidden="true"></div>
+    <div class="parallax-layer spacecraft-orbit" aria-hidden="true">
+      <svg class="spacecraft" viewBox="0 0 280 120" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="hull" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#8ecfff"/>
+            <stop offset="50%" stop-color="#c8e6ff"/>
+            <stop offset="100%" stop-color="#5aa8e8"/>
+          </linearGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <!-- Main habitat modules -->
+        <rect x="40" y="40" width="160" height="40" rx="8" fill="url(#hull)" stroke="#00f0ff" stroke-width="1.5" filter="url(#glow)"/>
+        <rect x="70" y="28" width="50" height="18" rx="4" fill="#1a2a40" stroke="#00f0ff" stroke-width="1"/>
+        <rect x="130" y="28" width="50" height="18" rx="4" fill="#1a2a40" stroke="#00f0ff" stroke-width="1"/>
+        <!-- Solar arrays -->
+        <rect x="10" y="48" width="28" height="24" rx="2" fill="#0a1a30" stroke="#4af" stroke-width="1"/>
+        <rect x="202" y="48" width="28" height="24" rx="2" fill="#0a1a30" stroke="#4af" stroke-width="1"/>
+        <!-- Windows -->
+        <circle cx="85" cy="60" r="5" fill="#00f0ff" opacity="0.9"/>
+        <circle cx="110" cy="60" r="5" fill="#00f0ff" opacity="0.9"/>
+        <circle cx="135" cy="60" r="5" fill="#00f0ff" opacity="0.9"/>
+        <circle cx="160" cy="60" r="5" fill="#00f0ff" opacity="0.9"/>
+        <!-- Docking node -->
+        <rect x="200" y="52" width="20" height="16" rx="2" fill="#334" stroke="#00f0ff"/>
+      </svg>
+    </div>
+
+    <div class="hero-content">
+      <p class="eyebrow">HABITAT LIFE SUPPORT · ORBITAL OPERATIONS</p>
+      <h1 class="title">
+        <span class="line">OXYGEN</span>
+        <span class="line accent">IN THE VOID</span>
+      </h1>
+      <p class="subtitle">How spacecraft produce, monitor, store, and recycle breathable air</p>
+      <button class="cta" id="explore-btn">Explore Life Support</button>
+    </div>
+
+    <div class="scroll-indicator" aria-hidden="true">
+      <span>SCROLL TO BEGIN</span>
+      <div class="chevron"></div>
+    </div>
+  </header>
+
+  <nav class="main-nav" id="main-nav" aria-label="Section navigation">
+    <a href="#electrolysis">Electrolysis</a>
+    <a href="#storage">Storage & Flow</a>
+    <a href="#co2">CO₂ Removal</a>
+    <a href="#diagram">System Diagram</a>
+    <a href="#dashboard">Dashboard</a>
+    <a href="#monitoring">Monitoring</a>
+    <a href="#emergencies">Emergencies</a>
+    <a href="#future">Current vs Future</a>
+  </nav>
+
+  <main>
+    <!-- ELECTROLYSIS -->
+    <section id="electrolysis" class="scene">
+      <div class="scene-inner">
+        <h2>Primary Oxygen Source: Water Electrolysis</h2>
+        <p class="lead">On the International Space Station, the main source of breathable oxygen is the Oxygen Generation Assembly (OGA). It splits water into oxygen and hydrogen using electricity from the solar arrays.</p>
+
+        <div class="two-col">
+          <div class="text-block">
+            <h3>The Reaction</h3>
+            <div class="equation">2 H₂O → 2 H₂ + O₂</div>
+            <p>An electric current passes through purified water in a stack of electrolysis cells. Oxygen is released into the cabin atmosphere. Hydrogen is either vented overboard or sent to a Sabatier reactor that combines it with captured CO₂ to make more water.</p>
+            <ul>
+              <li>Maximum production: ~9.25 kg O₂ per day (supports up to ~11 crew)</li>
+              <li>Typical operation: sized for the current crew of 6–7</li>
+              <li>Russian Elektron units perform the same function with alkaline electrolysis</li>
+              <li>Water comes from the Water Recovery System (recycled humidity, hygiene, and urine)</li>
+            </ul>
+          </div>
+          <div class="diagram-card">
+            <div class="electrolysis-visual">
+              <div class="cell">
+                <div class="electrode anode">+</div>
+                <div class="water-stream"></div>
+                <div class="electrode cathode">−</div>
+              </div>
+              <div class="outputs">
+                <span class="o2-bubble">O₂ → Cabin</span>
+                <span class="h2-bubble">H₂ → Vent / Sabatier</span>
+              </div>
+            </div>
+            <p class="caption">Simplified electrolysis cell stack</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STORAGE & CIRCULATION -->
+    <section id="storage" class="scene dark">
+      <div class="scene-inner">
+        <h2>Oxygen Storage & Air Circulation</h2>
+        <p class="lead">Generated oxygen is mixed into the cabin air and distributed by fans. High-pressure tanks provide reserves and make up for leaks or EVA losses.</p>
+        <div class="cards">
+          <article class="info-card">
+            <h3>Cabin Atmosphere</h3>
+            <p>Maintained near Earth sea-level conditions:</p>
+            <ul>
+              <li>Total pressure: ~14.7 psi (101 kPa)</li>
+              <li>Oxygen: ~21% (partial pressure ~3.1 psi)</li>
+              <li>Nitrogen: ~78% (for fire safety and comfort)</li>
+              <li>Humidity controlled to keep condensation low</li>
+            </ul>
+          </article>
+          <article class="info-card">
+            <h3>High-Pressure Storage</h3>
+            <p>U.S. High-Pressure Gas Tanks store oxygen at up to ~2,700 psi. Each can hold roughly 100 kg of O₂ — enough for many days of crew use if generation stops.</p>
+            <p>Nitrogen tanks maintain total pressure when oxygen is added or air is lost.</p>
+          </article>
+          <article class="info-card">
+            <h3>Circulation</h3>
+            <p>Fans and ducting keep air moving so oxygen reaches every module and CO₂ does not pool. Inter-module ventilation is continuous. Filters remove particulates and some contaminants before air returns to the habitat volume.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CO2 REMOVAL -->
+    <section id="co2" class="scene">
+      <div class="scene-inner">
+        <h2>Carbon Dioxide Removal</h2>
+        <p class="lead">Crew exhalation produces CO₂ that must be removed continuously. On the ISS this is done primarily by the Carbon Dioxide Removal Assembly (CDRA) using zeolite molecular sieves, plus Russian systems.</p>
+        <div class="two-col">
+          <div>
+            <h3>How CDRA Works</h3>
+            <p>Cabin air is forced through beds of zeolite that adsorb CO₂. Once a bed is saturated, it is heated and the CO₂ is desorbed — either vented or sent to the Sabatier reactor.</p>
+            <p>The Sabatier reaction recovers some oxygen:</p>
+            <div class="equation">CO₂ + 4 H₂ → CH₄ + 2 H₂O</div>
+            <p>Water is recycled into the electrolysis loop. Methane is currently vented. This closes roughly half of the oxygen loop.</p>
+          </div>
+          <div>
+            <h3>Backup Scrubbers</h3>
+            <p>Lithium hydroxide (LiOH) canisters chemically absorb CO₂ for emergency use. They are not regenerative and must be replaced.</p>
+            <p>Russian Vozdukh and newer amine-based systems provide additional capacity and redundancy.</p>
+            <p>Target CO₂ partial pressure is kept well below 3 mmHg to avoid headaches and performance issues.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE DIAGRAM -->
+    <section id="diagram" class="scene dark">
+      <div class="scene-inner">
+        <h2>Oxygen Flow Through the Habitat</h2>
+        <p class="lead">Click or tap any node for details. The loop shows generation, cabin use, CO₂ capture, and partial recovery.</p>
+        <div class="diagram-container">
+          <svg class="system-svg" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
+            <!-- Paths -->
+            <path class="flow-path" d="M180 180 L320 180" marker-end="url(#arrow)"/>
+            <path class="flow-path" d="M460 180 L600 180" marker-end="url(#arrow)"/>
+            <path class="flow-path" d="M720 180 L720 280 L500 280 L500 320" marker-end="url(#arrow)"/>
+            <path class="flow-path reverse" d="M380 320 L180 320 L180 220" marker-end="url(#arrow)"/>
+            <path class="flow-path" d="M500 320 L320 320 L320 220" marker-end="url(#arrow)"/>
+
+            <!-- Nodes -->
+            <g class="node" data-info="water">
+              <rect x="40" y="140" width="140" height="80" rx="12" class="node-box"/>
+              <text x="110" y="175" text-anchor="middle">Water</text>
+              <text x="110" y="195" text-anchor="middle" class="sub">from Recovery</text>
+            </g>
+            <g class="node" data-info="electrolysis">
+              <rect x="320" y="140" width="140" height="80" rx="12" class="node-box active"/>
+              <text x="390" y="175" text-anchor="middle">Electrolysis</text>
+              <text x="390" y="195" text-anchor="middle" class="sub">OGA / Elektron</text>
+            </g>
+            <g class="node" data-info="cabin">
+              <rect x="600" y="140" width="140" height="80" rx="12" class="node-box"/>
+              <text x="670" y="175" text-anchor="middle">Cabin Air</text>
+              <text x="670" y="195" text-anchor="middle" class="sub">Crew Breathing</text>
+            </g>
+            <g class="node" data-info="cdra">
+              <rect x="500" y="300" width="160" height="70" rx="12" class="node-box"/>
+              <text x="580" y="335" text-anchor="middle">CO₂ Removal</text>
+              <text x="580" y="352" text-anchor="middle" class="sub">CDRA / Vozdukh</text>
+            </g>
+            <g class="node" data-info="sabatier">
+              <rect x="220" y="300" width="160" height="70" rx="12" class="node-box"/>
+              <text x="300" y="335" text-anchor="middle">Sabatier</text>
+              <text x="300" y="352" text-anchor="middle" class="sub">H₂ + CO₂ → H₂O</text>
+            </g>
+
+            <defs>
+              <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#00f0ff"/>
+              </marker>
+            </defs>
+          </svg>
+          <div class="info-panel" id="diagram-info">
+            <h3>Select a system</h3>
+            <p>Click any box to learn how oxygen and carbon dioxide move through the habitat.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="scene">
+      <div class="scene-inner">
+        <h2>Habitat Atmosphere Dashboard</h2>
+        <p class="lead">Simulated live telemetry. Values stay within normal operational ranges for a healthy habitat.</p>
+        <div class="dashboard">
+          <div class="gauge-card">
+            <div class="gauge" data-value="21.0" data-max="25">
+              <div class="gauge-fill" style="--p: 84%"></div>
+              <span class="gauge-value">21.0<span>%</span></span>
+            </div>
+            <h3>Oxygen Concentration</h3>
+            <p>Target ~21%</p>
+          </div>
+          <div class="gauge-card">
+            <div class="gauge" data-value="14.7" data-max="16">
+              <div class="gauge-fill" style="--p: 92%"></div>
+              <span class="gauge-value">14.7<span>psi</span></span>
+            </div>
+            <h3>Cabin Pressure</h3>
+            <p>Normal 14.2–14.9 psi</p>
+          </div>
+          <div class="gauge-card">
+            <div class="gauge co2" data-value="2.4" data-max="6">
+              <div class="gauge-fill" style="--p: 40%"></div>
+              <span class="gauge-value">2.4<span>mmHg</span></span>
+            </div>
+            <h3>CO₂ Level</h3>
+            <p>Keep below 3 mmHg</p>
+          </div>
+          <div class="gauge-card">
+            <div class="gauge quality" data-value="96" data-max="100">
+              <div class="gauge-fill" style="--p: 96%"></div>
+              <span class="gauge-value">96<span>%</span></span>
+            </div>
+            <h3>Air Quality</h3>
+            <p>Filters & trace control</p>
+          </div>
+          <div class="gauge-card wide">
+            <div class="reserve-bar">
+              <div class="reserve-fill" style="width: 78%"></div>
+              <span>78%</span>
+            </div>
+            <h3>Oxygen Reserve Supply</h3>
+            <p>High-pressure tanks + generation capacity</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MONITORING & MAINTENANCE -->
+    <section id="monitoring" class="scene dark">
+      <div class="scene-inner">
+        <h2>Monitoring & Crew Maintenance</h2>
+        <div class="cards">
+          <article class="info-card">
+            <h3>Sensors & Analyzers</h3>
+            <p>The Major Constituent Analyzer (MCA) and dedicated sensors continuously measure oxygen, nitrogen, CO₂, and total pressure. Data is available to the crew and to ground controllers in real time.</p>
+          </article>
+          <article class="info-card">
+            <h3>Routine Maintenance</h3>
+            <p>Astronauts replace filters, swap Orbital Replacement Units (ORUs), clean sensors, and verify fan operation. Many components are designed for on-orbit replacement so the habitat never loses life-support capability.</p>
+          </article>
+          <article class="info-card">
+            <h3>Trace Contaminant Control</h3>
+            <p>Activated charcoal beds, catalytic oxidizers, and other filters remove volatile organic compounds and other trace gases that can build up from equipment and crew activity.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- EMERGENCIES -->
+    <section id="emergencies" class="scene">
+      <div class="scene-inner">
+        <h2>Equipment Failures & Emergency Reserves</h2>
+        <p class="lead">Multiple independent backups ensure breathable air even if primary systems fail.</p>
+        <div class="cards">
+          <article class="info-card">
+            <h3>High-Pressure Tanks</h3>
+            <p>Stored oxygen and nitrogen can repressurize the cabin and supply breathing gas for days to weeks depending on crew size and leak rate.</p>
+          </article>
+          <article class="info-card">
+            <h3>Solid Fuel Oxygen Generators (SFOG)</h3>
+            <p>Chemical “candles” that release oxygen when ignited. One canister provides roughly one person-day of oxygen. Used only in emergencies.</p>
+          </article>
+          <article class="info-card">
+            <h3>LiOH Canisters</h3>
+            <p>Emergency CO₂ scrubbers. Simple, reliable, and non-regenerative. Carried in sufficient quantity for contingency scenarios.</p>
+          </article>
+          <article class="info-card">
+            <h3>Portable Breathing Apparatus</h3>
+            <p>Quick-don oxygen masks give individual crew members immediate breathable gas during fires, toxic leaks, or rapid depressurization while the habitat systems are restored.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CURRENT VS FUTURE -->
+    <section id="future" class="scene dark">
+      <div class="scene-inner">
+        <h2>Current Spacecraft vs Future Concepts</h2>
+        <div class="comparison">
+          <div class="comp-col current">
+            <h3>Current (ISS & Near-Term)</h3>
+            <ul>
+              <li>Water electrolysis (OGA / Elektron)</li>
+              <li>~50% oxygen recovery via Sabatier</li>
+              <li>Zeolite and amine CO₂ removal</li>
+              <li>High-pressure tank reserves + chemical backups</li>
+              <li>Regular resupply of water and spare parts</li>
+              <li>Advanced OGA (AOGA) upgrades launching for higher reliability</li>
+            </ul>
+          </div>
+          <div class="comp-col future">
+            <h3>Future Concepts</h3>
+            <ul>
+              <li>Higher loop closure (Bosch or methane pyrolysis → ~100% oxygen recovery)</li>
+              <li>Static vapor-feed or magnetohydrodynamic electrolysis (fewer moving parts)</li>
+              <li>More maintainable, longer-life hardware with less crew time</li>
+              <li>Solid-oxide systems suitable for lunar/Martian ISRU</li>
+              <li>Reduced mass and power for deep-space transit</li>
+              <li>Still relies on physical/chemical systems — no dependence on growing crops</li>
+            </ul>
+          </div>
+        </div>
+        <p class="note">Future habitats will push toward closed-loop regenerative systems so that less mass must be launched from Earth, while retaining robust emergency reserves.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>AETHER Life Support · Educational visualization of spacecraft oxygen systems</p>
+    <p class="small">Based on publicly documented ISS ECLSS architecture and published research on future regenerative systems. Not an official NASA product.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
